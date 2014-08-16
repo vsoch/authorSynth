@@ -9,7 +9,7 @@ db = AS.neurosynthInit("525")
 # Query pubmed for author of interest
 # will return dictionary of PMIDs and author order
 author = "Hariri AR"
-email = "vsochat@gmail.com"
+email = "vsochat@stanford.edu"
 papers = AS.getArticles(author,email)
 
 # NOT YET WRITTEN
