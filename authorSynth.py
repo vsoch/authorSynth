@@ -8,9 +8,9 @@
 # 2) cross list dois with those in the neuroSynth database
 # 3) produce a brainmap for the list of PMIDs 
 
-__author__ = "Vanessa Sochat, Peter Lee"
+__author__ = "Vanessa Sochat"
 __copyright__ = "Copyright 2014"
-__credits__ = ["Vanessa Sochat", "Peter Lee"]
+__credits__ = ["Vanessa Sochat"]
 __license__ = "GPL"
 __version__ = "1.0.1"
 __maintainer__ = "Vanessa Sochat"
