@@ -12,6 +12,7 @@ author = "Calhoun VD"
 email = "vsochat@stanford.edu"
 
 # You will likely get a message that you need to download and save DTDs
+# This returns a tuple, papers, with papers[0] == dois, papers[1] == pmid
 papers = AS.getArticles(author,email)
 outdirectory = "/home/vanessa/Desktop"
 metaAnalysis = AS.neurosynthMatch(db,papers,author,outdirectory)

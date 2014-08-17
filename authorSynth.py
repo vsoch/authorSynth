@@ -33,7 +33,7 @@ def neurosynthInit(dbsize):
     """Initialize Neurosynth Database, return database object"""
     print "Initializing Neurosynth database..."
     dataset = Dataset('data/' + str(dbsize) + 'terms/database.txt')
-    dataset.add_features('data/' + str(dbsize) + 'terms/features.txt')    
+    dataset.add_features('data/' + str(dbsize) + 'terms/features.txt')
 
     #print "Loading standard space brain..."
     #img = nb.load("data/MNI152_T1_2mm_brain.nii.gz")
@@ -42,13 +42,21 @@ def neurosynthInit(dbsize):
 
 def neurosynthMatch(db,papers,author,outdir=None):
     """Match neurosynth doi with papers doi"""
-    dois = papers.keys()
+    dois = papers[0].keys()
+    pmid = str(papers[1].keys())
     # Get all IDs in neuroSynth
     neurosynth_ids = db.image_table.ids
-    print "Search for " + str(len(papers)) + " ids in NeuroSynth database..."
-    # Find intersection
-    valid_ids = list(set(dois) - set(neurosynth_ids))
+
+    # Determine if we have dois or pmids
+    if bool(re.search("[/]",neurosynth_ids[0])):
+      print "Search for " + str(len(dois)) + " ids in NeuroSynth database..."
+      # Find intersection
+      valid_ids = [x for x in dois if x in neurosynth_ids]
+    else:
+      print "Search for " + str(len(pmid)) + " ids in NeuroSynth database..."
+      valid_ids = [str(x) for x in pmid if str(x) in neurosynth_ids]
     print "Found " + str(len(valid_ids)) + "."
+    
     if (len(valid_ids) > 0):
       # Do meta analysis
       ma = meta.MetaAnalysis(db,valid_ids)
@@ -69,7 +77,9 @@ def neurosynthMatch(db,papers,author,outdir=None):
         imageutils.save_img(data, '%s/%s_pFgA.nii.gz' % (outdir, outprefix), db.volume)
         imageutils.save_img(dataZ, '%s/%s_pFgA_z.nii.gz' % (outdir, outprefix), db.volume)
       return ma.images
-    
+    else:
+      print "No overlapping studies found in database for author " + author + "."
+
 def getFeatures(dataset):
     """Return features in neurosynth database"""
     return dataset.get_feature_names()
@@ -78,7 +88,7 @@ def getFeatures(dataset):
 # These functions will find papers of interest to crosslist with Neurosynth
 
 def getArticles(author,email):
-    """Return dictinary of dois and order based on author name (Last FM)"""
+    """Return dictionaries of dois, pmids, each with order based on author name (Last FM)"""
 
     print "Getting pubmed articles for author " + author
     
@@ -93,7 +103,8 @@ def getArticles(author,email):
         ids = record['IdList']
         handle = Entrez.efetch(db='pubmed', id=ids,retmode='xml',retmax=5000)
         records = Entrez.read(handle)
-        papers = dict()
+        # We need to save dois for database with 525, pmid for newer
+        dois = dict(); pmid = dict()
         for record in records:
           authors = record["MedlineCitation"]["Article"]["AuthorList"]
           order = 1
@@ -102,23 +113,35 @@ def getArticles(author,email):
             if "LastName" in p and "Initials" in p:
               person = p["LastName"] + " " + p["Initials"]
               if person == author:
-                # Only really old papers won't have a doi
+
+                # Save the pmid of the paper and author order
+                # it's possible to get a different number of pmids than dois
+                if order == len(authors):
+                  pmid[int(record["MedlineCitation"]["PMID"])] = order
+                else:
+                  pmid[int(record["MedlineCitation"]["PMID"])] = "PI"
+
+                # We have to dig for the doi
                 for r in record["PubmedData"]["ArticleIdList"]:
+                  # Here is the doi
                   if bool(re.search("[/]",str(r))):
                     # If they are last, they are PI
                     if order == len(authors):
-                      papers[str(r)] = "PI"
+                      dois[str(r)] = "PI"
                     else:
-                      papers[str(r)] = order
+                      pmid[int(record["MedlineCitation"]["PMID"])] = order
+                      dois[str(r)] = order
+
             order = order + 1
 
       # If there are no papers
       else:
         print "No papers found for author " + author + "!"
-        
-    # Return dictionary of dois and author order
-    print "Found " + str(len(papers)) + " papers for author " + author + "."
-    return papers
+
+    # Return dois, pmids, each with author order
+    print "Found " + str(len(pmid)) + " pmids for author " + author + " (for NeuroSynth 3000 database)."
+    print "Found " + str(len(dois)) + " dois for author " + author + " (for NeuroSynth 525 database)."
+    return (dois, pmid)
 
 if __name__ == "__main__":
   print "Please import as a module"
