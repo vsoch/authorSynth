@@ -37,7 +37,7 @@ for f in filey:
   authors.append(f.strip("\n").split("\t")[pindex])
 
 # Now run authorSynth for each author, save files with uuid as name
-for i in range(0,len(authors)):
+for i in range(5,len(authors)):
   print "Starting on " + str(i) + ": " + authors[i]
   papers = AS.getArticles(authors[i],email)
   ma = AS.neurosynthMatch(db,papers,author,outdirectory,uuids[i])
