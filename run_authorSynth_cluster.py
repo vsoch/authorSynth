@@ -23,6 +23,7 @@ for f in filey:
 # Prepare and submit a job for each
 for i in range(0,len(uuids)):
   filey = ".job/" + uuids[i] + ".job"
+  filey = open(filey,"w")
   filey.writelines("#!/bin/bash\n")
   filey.writelines("#SBATCH --job-name=" + uuids[i] + "\n")
   filey.writelines("#SBATCH --output=.out/" + uuids[i] + ".out\n")
