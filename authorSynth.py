@@ -40,7 +40,7 @@ def neurosynthInit(dbsize):
     #standard = img.get_data()
     return dataset
 
-def neurosynthMatch(db,papers,author,outdir=None):
+def neurosynthMatch(db,papers,author,outdir=None,outprefix=None):
     """Match neurosynth doi with papers doi"""
     dois = papers[0].keys()
     pmid = str(papers[1].keys())
@@ -71,7 +71,8 @@ def neurosynthMatch(db,papers,author,outdir=None):
       # If user specifies an output directory
       if outdir:
         print "Saving results to output directory " + outdir + "..."
-        outprefix = author.replace(" ","")
+        if not outprefix:
+          outprefix = author.replace(" ","")
         imageutils.save_img(dataFDR, '%s/%s_pFgA_z_FDR_0.05.nii.gz' % (outdir, outprefix), db.volume)
         imageutils.save_img(dataPRIOR, '%s/%s_pFgA_given_pF=0.50.nii.gz' % (outdir, outprefix), db.volume)
         imageutils.save_img(data, '%s/%s_pFgA.nii.gz' % (outdir, outprefix), db.volume)
