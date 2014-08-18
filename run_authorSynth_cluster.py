@@ -31,7 +31,7 @@ for i in range(0,len(uuids)):
   filey.writelines("#SBATCH --time=2-00:00\n")
   filey.writelines("#SBATCH --mem=12000\n")
   # Usage : authorSynth_cluster.py uuid "author" email outdirectory
-  filey.writelines("/home/vsochat/python-lapack-blas/bin/python /home/vsochat/SCRIPT/python/authorSynth/run_authorSynth_cluster.py " + uuids[i] + " \"" + authors[i] + "\" " + email + " " + outdirectory + "\n")
+  filey.writelines("/home/vsochat/python-lapack-blas/bin/python /home/vsochat/SCRIPT/python/authorSynth/authorSynth_cluster.py " + uuids[i] + " \"" + authors[i] + "\" " + email + " " + outdirectory + "\n")
   filey.close()
   os.system("sbatch " + ".job/" + uuids[i] + ".job")
 
