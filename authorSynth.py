@@ -43,7 +43,7 @@ def neurosynthInit(dbsize):
 def neurosynthMatch(db,papers,author,outdir=None,outprefix=None):
     """Match neurosynth doi with papers doi"""
     dois = papers[0].keys()
-    pmid = str(papers[1].keys())
+    pmid = papers[1].keys()
     # Get all IDs in neuroSynth
     neurosynth_ids = db.image_table.ids
 
