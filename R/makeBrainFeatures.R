@@ -94,11 +94,19 @@ corr = cor(fmatrix)
 # Get author names
 meta = read.csv("../highly_cited_2014_final.tab",sep="\t")
 idx = match(uuids,meta$uuids)
+names = cbind(as.character(meta$First_Name.Middle_Name[idx]),as.character(meta$Family_Name[idx]))
+labels = c()
+for (i in 1:nrow(names)){
+  name = paste(names[i,1],names[i,2],sep="")
+  labels = c(labels,name)  
+}
+labels = gsub(" ",".",labels)
+lookup = cbind(labels,uuids)
+save(lookup,file="authorLookup125.Rda")
 
-
+rownames(fmatrix) = lookup[,1]
 # Do a quick clustering
 # heatmap(fmatrix)
 disty = dist(fmatrix)
 hc = hclust(disty)
-plot(hc)
-
+plot(hc,main="Neuroscience Author Regional Similarity")
