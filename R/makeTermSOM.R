@@ -47,15 +47,15 @@ for (t in 1:length(som$unit.classif)){
 }
 
 # Here are the corresponding coordinates of the som
-som$grid$pts
+brainGrid$som$grid$pts
 
 # Let's quickly plot!
-plot(som$grid$pts,main="NeuroSynth Behavioral Brain Maps Similarity",col="#CCCCCC",xlab="Nodes",ylab="Nodes",pch=19,cex=1)
-text(som$grid$pts,somLabels,cex=.4)
+plot(brainGrid$som$grid$pts,main="NeuroSynth Behavioral Brain Maps Similarity",col="#CCCCCC",xlab="Nodes",ylab="Nodes",pch=19,cex=1)
+text(brainGrid$som$grid$pts,brainGrid$nodeLabels,cex=.4)
 
 # Put together into list, and save to file
 brainGrid = list(som=som,nodeLabels = somLabels,terms=labels)
-save(brainGrid,file="som_pFgA.Rda")
+load("/scratch/users/vsochat/DATA/BRAINMAP/nsynth525pFgA/som8mm504/som_pFgA.Rda")
 
 # Here are the best matching unit images, the ones to turn into images for som
 for (c in 1:nrow(som$codes)){
@@ -70,13 +70,13 @@ for (c in 1:nrow(som$codes)){
 # transformation matrix of 8mm to 2mm:
 # flirt -in test/rX.nii -ref test/X.nii -omat standard8mmto2mm.mat -dof 6
 # flirt -in rX.nii -ref X.nii -applyxfm -init standard8mmto2mm.mat -out testoutput.nii.gz
-transform = "/home/vanessa/Documents/Work/NEUROSYNTH/nsynth525pFgA/transform/standard8mmto2mm.mat"
-standard = "/home/vanessa/Documents/Work/NEUROSYNTH/nsynth525pFgA/transform/X.nii"
+transform = "/scratch/users/vsochat/DATA/BRAINMAP/nsynth525pFgA/transform/standard8mmto2mm.mat"
+standard = "/scratch/users/vsochat/DATA/BRAINMAP/nsynth525pFgA/transform/X.nii"
 
 # Here we apply the above to register our brainMatrix images (in space of 8mm) back to 2mm (to be used to compare functional ICA to)
 library('fslr')
-setwd("/home/vanessa/Documents/Work/NEUROSYNTH/nsynth525pFgA/som8mm504")
-brainmaps = list.files(pattern="^som*")
+setwd("/scratch/users/vsochat/DATA/BRAINMAP/nsynth525pFgA/som8mm504")
+brainmaps = list.files(pattern="*.nii")
 
 # For each file, apply transformation to register back to 2mm space
 for (z in brainmaps){
@@ -84,4 +84,4 @@ for (z in brainmaps){
   flirt(z, standard, omat=transform, dof=6, outfile = outimg, retimg = FALSE, reorient = FALSE, intern = TRUE,opts=paste("-init", transform,"-applyxfm"))    
 }
 
-# Now we have brainGrid_2mm.nii images in same space as MNI 152 2mm template to register ICA images to!
+# Now we have som*_2mm.nii images in same space as MNI 152 2mm template, and the authorBrain maps
