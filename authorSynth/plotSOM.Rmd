@@ -1,0 +1,107 @@
+---
+title: "AuthorSynth"
+author: "Vanessa Sochat"
+date: "08/21/2014"
+output:
+  html_document:
+    fig_height: 8
+    fig_width: 20
+runtime: shiny
+---
+
+This is a demo of AuthorSynth, a tool to associate neuroscience authors with brain maps.  The image below shows a mapping of each author's work to terms associated with functional brain maps.  The coloring represents the similarity of the author map to the functional map(s).  To see methods and workflow for this project, see https://github.com/vsoch/authorSynth/.
+
+
+```{r, echo=FALSE}
+library("RColorBrewer")
+# Load the network variables, as well as the SOM
+load("som_pFgA.Rda")
+load("allScoresAuthorNames124.Rda")
+inputmr = sort(rownames(somAuthorMatch$euc))
+# Get color palette ready
+rbPal <- colorRampPalette(brewer.pal(8,"YlOrRd"))
+# Normalize data between 0 and 1
+#norm.euc = (somAuthorMatch$euc) / (max(somAuthorMatch$euc)-min(somAuthorMatch$euc))
+#norm.so = (somAuthorMatch$so) / (max(somAuthorMatch$so)-min(somAuthorMatch$so))
+norm.cos = somAuthorMatch$cos
+norm.euc = (somAuthorMatch$euc - mean(somAuthorMatch$euc)) / sd(somAuthorMatch$euc)
+norm.so = (somAuthorMatch$so - mean(somAuthorMatch$so)) / sd(somAuthorMatch$so)
+norm.mr = (somAuthorMatch$authorMap - mean(somAuthorMatch$authorMap)) / sd(somAuthorMatch$authorMap)
+
+inputPanel(
+  selectInput("mr", label = "Select an Author:",
+              choices = inputmr, selected = inputmr[1],width=500)
+   # If we want to give choice about distance metric, but cosine is best
+   #selectInput("metric", label = "Distance Metric:",
+   #           choices = c("Euclidean","Cosine","% of SOM Template","% of author map"), selected = "Cosine")
+)
+
+  datasetInput <- reactive({
+
+    # Here is the user selected input
+    author = input$mr
+        
+    #if (input$metric == "Euclidean"){
+      #dat = norm.euc[author,]
+      #dat = somAuthorMatch$euc[author,]
+      #dat = (dat - min(dat)) / (max(dat)-min(dat))
+      # No scaling here, just set min of 0
+      #dat = c(0,as.numeric(dat),1)
+    #} else if (input$metric == "Cosine"){
+      #dat = norm.cos[author,]
+      dat = somAuthorMatch$cos[author,]
+      dat = (dat - min(dat)) / (max(dat)-min(dat))
+      # We want to scale the color to be between 0 and 1
+      dat = c(0,as.numeric(dat),1)
+    #} else if (input$metric == "% of SOM Template"){
+      #dat = somAuthorMatch$so[author,]
+      #dat = (dat - min(dat)) / (max(dat)-min(dat))
+      #dat = norm.so[author,]
+      #dat = c(0,as.numeric(dat),1)
+    #} else if (input$metric == "% of author map"){
+     # dat = somAuthorMatch$authorMap[author,]
+      #dat = (dat - min(dat)) / (max(dat)-min(dat))
+      #dat = norm.mr[author,]
+      #dat = c(0,as.numeric(dat),1)
+    #}
+    dat
+
+     # Threshold scores, if user wants
+     #test[which(test>input$thresh[2])] = 0
+     #test[which(test<input$thresh[1])] = 0
+     
+     # This adds a column of color values
+     # based on the y values
+     color = rbPal(10)[as.numeric(cut(dat,breaks = 10))]
+     color = color[-c(1,508)]
+     
+     # We return the color values to color the plot
+     color     
+   })      
+
+renderPlot({
+      color = datasetInput() 
+      plot(brainGrid$som$grid$pts,main="Summary of Neuroscience Author Work from Literature",col=color,xlab="Meta Brain Map Nodes",ylab="Meta Brain Map Nodes",pch=15,cex=10)
+      text(brainGrid$som$grid$pts,brainGrid$nodeLabels,cex=.8)   
+  },height=1200,width=1200)
+
+
+renderText({
+    
+    # Get the name of the image
+    #mr = input$mr
+    #pngimg = paste("http://www.vbmis.com/bmi/project/braingrid/img/ica/",as.character(mr),"_ica.png",sep="")
+    
+    #textOutput=c(paste('<img src="',pngimg,'" width="100%">',sep=""))
+    #textOutput
+    # Read in the image
+    #img = readPNG(pngimg, native = FALSE, info = FALSE)
+    #con = url(pngimg,open='rb')
+    #rawpng = readBin(con, what='raw', n=50000)    
+    #close(con)
+    #img <- readPNG(rawpng)
+    #plot(1:2, type='n',axes=FALSE,xlab="",ylab="")
+    #rasterImage(img, 1,1,2,2)
+  })
+
+```

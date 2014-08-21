@@ -1,6 +1,5 @@
 setwd("/scratch/users/vsochat/DATA/BRAINMAP/authorSynth")
 load("authorBrains.Rda")
-load("authorBrains.Rda")
 
 # Also load the author information
 meta = read.csv("/home/vsochat/SCRIPT/python/authorSynth/data/highly_cited_2014_final.csv",sep="\t")
@@ -30,8 +29,6 @@ rownames(distancematrix) = gsub(" ",".",rownames(distancematrix))
 colnames(distancematrix) = gsub(" ",".",rownames(distancematrix))
 hist(distancematrix,main="Distribution of Euclidean Distances for Author Similarity",col="orange")
 
-
-
 # Let's try thresholding out low values
 distancematrix[distancematrix<50] = 0
 write.table(distancematrix,file="dist_euclidean.txt",quote=FALSE,sep=";")
@@ -40,36 +37,24 @@ idx = which(distancematrix == 1,arr.ind=TRUE)
 
 # What we see in the tree is that there are small groups of researhers
 # with some similarity, but likely most researchers have little similarity
-# (eg, the data matrix is sparse)
+# (eg, the data matrix is sparse).  This tells us that our features are not
+# doing a good job because they are too detailed - two authors both with
+# activation in the amygdala should be similar, even if the voxels don't
+# completely overlap
 
-# self organizing map
-library("kohonen")
-som = som(dat, grid = somgrid(10, 10, "hexagonal"))
-save(som,file="som8mm.Rda")
+# Clustering idea # 2: We instead define 157 regions (white and gray matter)
+# and count voxels in author maps in each region.  We get a much nicer clustering
+# because we have addressed the above.
+setwd("/home/vanessa/Documents/Dropbox/Code/Python/authorSynth/data/atlas")
+load("featureMatrix157Filt.Rda")
+disty = dist(fmatrix)
+hc = hclust(disty)
+plot(hc,main="Neuroscience Author Regional Similarity")
 
-# We need to define a color scale that indicates the strength of the match score
-library("RColorBrewer")
-colorscale = brewer.pal(9,"YlOrRd")
-colorscale = colorRampPalette(brewer.pal(8,"YlOrRd"))(100)
+# Clustering idea # 3: Cluster the match scores of the brainmaps to the SOM images
+setwd('/scratch/users/vsochat/DATA/BRAINMAP/nsynth525pFgA/scores')
+load("allScoresAuthorNames124.Rda")
 
-# The coordinates in so$grid$pts that we plot match the image names, so we need to order the matrix
-# by the filename.  First extract the numbers
-imageNames = colnames(dat)
-#imageNames = as.numeric(gsub("_beststats.txt","",gsub("2mmbrainGrid","",imageNames)))
-#idx = sort(imageNames,index.return=TRUE)
-#data = data[,colnames(data)[idx$ix]]
-
-# This is our color palette
-rbPal <- colorRampPalette(brewer.pal(8,"YlOrRd"))
-
-# This is match scores for one compobent to all images - the range is the max match score for all images
-test = data[1,]
-test = c(0,as.numeric(test),max(data))
-
-#This adds a column of color values
-# based on the y values
-color = rbPal(10)[as.numeric(cut(test,breaks = 10))]
-color = color[-c(1,508)]
-
-plot(som$grid$pts,main="Which BrainTerms Maps are Similar?",xlab="Nodes",ylab="Nodes",pch=15,cex=6)
-text(som$grid$pts,brainMap$labels,cex=.6)
+disty = dist(data.euc)
+hc = hclust(disty)
+plot(hc,main="Clustering Neuroscience Authors Based on Euclidean Distance of Author to SOM Maps")
