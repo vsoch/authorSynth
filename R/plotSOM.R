@@ -19,6 +19,6 @@ for (author in authors) {
   color = color[-c(1,508)]
   png(file=paste("img/",gsub(" ","",author),".png",sep=""),width=14,height=14,units="in",res=300)
   plot(brainGrid$som$grid$pts,main=paste("Summary of Neuroscience Work for Author",author),col=color,xlab="Meta Brain Map Nodes",ylab="Meta Brain Map Nodes",pch=15,cex=8)
-  text(brainGrid$som$grid$pts,brainGrid$nodeLabels,cex=.4)   
+  text(brainGrid$som$grid$pts,brainGrid$nodeLabels,cex=.5)   
   dev.off()
 }
