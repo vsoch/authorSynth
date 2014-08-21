@@ -20,13 +20,6 @@ load("allScoresAuthorNames124.Rda")
 inputmr = sort(rownames(somAuthorMatch$euc))
 # Get color palette ready
 rbPal <- colorRampPalette(brewer.pal(8,"YlOrRd"))
-# Normalize data between 0 and 1
-#norm.euc = (somAuthorMatch$euc) / (max(somAuthorMatch$euc)-min(somAuthorMatch$euc))
-#norm.so = (somAuthorMatch$so) / (max(somAuthorMatch$so)-min(somAuthorMatch$so))
-norm.cos = somAuthorMatch$cos
-norm.euc = (somAuthorMatch$euc - mean(somAuthorMatch$euc)) / sd(somAuthorMatch$euc)
-norm.so = (somAuthorMatch$so - mean(somAuthorMatch$so)) / sd(somAuthorMatch$so)
-norm.mr = (somAuthorMatch$authorMap - mean(somAuthorMatch$authorMap)) / sd(somAuthorMatch$authorMap)
 
 inputPanel(
   selectInput("mr", label = "Select an Author:",
