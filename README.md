@@ -1,6 +1,6 @@
 # authorSynth
 authorSynth is a tool to query neuroSynth and pubmed to associate authors with brain maps (in dev)
-The first workflow works with Pubmed and the NeuroSynth database to create the maps, and the second workflow uses NeuroSynth to define a subset of functional behaviorally-relevant brain images, reduce these images to a 2D space, calculate match scores of the author brain maps to these images, and then display 
+The first workflow works with Pubmed and the NeuroSynth database to create the maps, and the second workflow uses NeuroSynth to define a subset of functional behaviorally-relevant brain images, reduce these images to a 2D space, calculate match scores of the author brain maps to these images, and then display.  We are currently working on the network, and a demo of the mapping of authors to functional maps is available in the R Markdown file in the "app" folder.
 
 ## Creation of Author Brain Maps
 
