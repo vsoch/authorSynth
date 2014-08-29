@@ -94,10 +94,12 @@ def getIDs(db):
     # Determine if we have dois or pmids
     if bool(re.search("[/]",neurosynth_ids[0])):
       print "Found dois in NeuroSynth database..."
+      print "Retrieve with ids['doi']"
       ids["doi"] = neurosynth_ids
       # Find intersection
     else:
       print "Found pmids in NeuroSynth database..."
+      print "Retrieve with ids['pmid']"
       ids["pmid"] = neurosynth_ids
     return ids
 
