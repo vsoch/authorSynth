@@ -7,7 +7,6 @@
 
 # import authorSynth module
 import authorSynth as AS
-import numpy as np
 import os
 
 # Output directory
@@ -21,7 +20,7 @@ ids = AS.getIDs(db)
 ids = ids.values()[0]
   
 # Prepare and submit a job for each
-for i in range(0,len(ids)):
+for i in range(4800,len(ids)):
   filey = ".job/" + ids[i] + ".job"
   filey = open(filey,"w")
   filey.writelines("#!/bin/bash\n")
@@ -33,5 +32,5 @@ for i in range(0,len(ids)):
   # Usage : authorSynth_cluster.py uuid "author" email outdirectory
   filey.writelines("/home/vsochat/python-lapack-blas/bin/python /home/vsochat/SCRIPT/python/authorSynth/pmidNetwork.py " + ids[i] + " " +  outdir + "\n")
   filey.close()
-  os.system("sbatch " + ".job/" + uuids[i] + ".job")
+  os.system("sbatch " + ".job/" + ids[i] + ".job")
 
