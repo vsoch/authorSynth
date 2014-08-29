@@ -116,14 +116,14 @@ def getAuthors(db):
    """Extract all author names in database"""
    articles = db.mappables
    uniqueAuthors = []
-   for article in articles:
-     meta = article[0].__dict__
+   for a in articles:
+     meta = a.__dict__
      tmp = meta['data']['authors']
      tmp = tmp.split(",")
      authors = [ x.strip("^ ") for x in tmp]
      for a in authors:
        uniqueAuthors.append(a)
-   uniqueAuthors = np.unique(uniqueAuthors)
+   uniqueAuthors = list(np.unique(uniqueAuthors))
    return uniqueAuthors
 
 # -- PUBMED FUNCTIONS --------------------------------------------------------------
