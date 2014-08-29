@@ -4,9 +4,6 @@ The first workflow works with Pubmed and the NeuroSynth database to create the m
 
 ## Creation of Author Brain Maps
 
-### pmidExtract.py
-Given a database size, this script will return all PMIDs from the neurosynth database of that size.
-
 ### authorExtract.py
 Given a list of PMIDs and a user email address, this script will query Entrez Pubmed and return an array of unique authors along with their frequency of PMID mentions
 
