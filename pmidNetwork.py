@@ -3,6 +3,8 @@
 # in authors between papers.  This script is run by run_pmidNetwork.py
 # on the Sherlock cluster
 
+import sys
+
 # Get arguments
 iid = sys.argv[1]
 outdir = sys.argv[2]

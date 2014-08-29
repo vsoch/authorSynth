@@ -8,6 +8,10 @@
 # import authorSynth module
 import authorSynth as AS
 import numpy as np
+import os
+
+# Output directory
+outdir = "/scratch/users/vsochat/DATA/BRAINMAP/authorSynth/pmidNetwork"
 
 # Init Neurosynth database, either "525" or "3000" terms
 db = AS.neurosynthInit("3000")
@@ -27,7 +31,7 @@ for i in range(0,len(ids)):
   filey.writelines("#SBATCH --time=2-00:00\n")
   filey.writelines("#SBATCH --mem=12000\n")
   # Usage : authorSynth_cluster.py uuid "author" email outdirectory
-  filey.writelines("/home/vsochat/python-lapack-blas/bin/python /home/vsochat/SCRIPT/python/authorSynth/pmidNetwork.py " + ids[i] + "\n")
+  filey.writelines("/home/vsochat/python-lapack-blas/bin/python /home/vsochat/SCRIPT/python/authorSynth/pmidNetwork.py " + ids[i] + " " +  outdir + "\n")
   filey.close()
   os.system("sbatch " + ".job/" + uuids[i] + ".job")
 
