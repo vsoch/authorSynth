@@ -85,6 +85,19 @@ def getFeatures(dataset):
     """Return features in neurosynth database"""
     return dataset.get_feature_names()
 
+def getIDs(db):
+   """Extract pubmed IDs or dois from Neurosynth Database"""
+    # Get all IDs in neuroSynth
+    neurosynth_ids = db.image_table.ids
+
+    # Determine if we have dois or pmids
+    if bool(re.search("[/]",neurosynth_ids[0])):
+      print "Found dois in NeuroSynth database..."
+      # Find intersection
+    else:
+      print "Found pmids in NeuroSynth database..."
+    return neurosynth_ids
+
 # -- PUBMED FUNCTIONS --------------------------------------------------------------
 # These functions will find papers of interest to crosslist with Neurosynth
 
