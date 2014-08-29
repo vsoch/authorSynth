@@ -32,29 +32,29 @@ import re
 def neurosynthInit(dbsize):
     """Initialize Neurosynth Database, return database object"""
     print "Initializing Neurosynth database..."
-    dataset = Dataset('data/' + str(dbsize) + 'terms/database.txt')
-    dataset.add_features('data/' + str(dbsize) + 'terms/features.txt')
+    db = Dataset('data/' + str(dbsize) + 'terms/database.txt')
+    db.add_features('data/' + str(dbsize) + 'terms/features.txt')
 
     #print "Loading standard space brain..."
     #img = nb.load("data/MNI152_T1_2mm_brain.nii.gz")
     #standard = img.get_data()
-    return dataset
+    return db
 
 def neurosynthMatch(db,papers,author,outdir=None,outprefix=None):
     """Match neurosynth doi with papers doi"""
     dois = papers[0].keys()
     pmid = papers[1].keys()
     # Get all IDs in neuroSynth
-    neurosynth_ids = db.image_table.ids
+    neurosynth_ids = self.getIDs(db)
 
     # Determine if we have dois or pmids
-    if bool(re.search("[/]",neurosynth_ids[0])):
+    if neurosynth_ids.keys()[0] == "doi":
       print "Search for " + str(len(dois)) + " ids in NeuroSynth database..."
       # Find intersection
-      valid_ids = [x for x in dois if x in neurosynth_ids]
+      valid_ids = [x for x in dois if x in neurosynth_ids.values()]
     else:
       print "Search for " + str(len(pmid)) + " ids in NeuroSynth database..."
-      valid_ids = [str(x) for x in pmid if str(x) in neurosynth_ids]
+      valid_ids = [str(x) for x in pmid if str(x) in neurosynth_ids.values()]
     print "Found " + str(len(valid_ids)) + "."
     
     if (len(valid_ids) > 0):
@@ -86,17 +86,43 @@ def getFeatures(dataset):
     return dataset.get_feature_names()
 
 def getIDs(db):
-   """Extract pubmed IDs or dois from Neurosynth Database"""
+    """Extract pubmed IDs or dois from Neurosynth Database"""
     # Get all IDs in neuroSynth
     neurosynth_ids = db.image_table.ids
 
+    ids = dict()
     # Determine if we have dois or pmids
     if bool(re.search("[/]",neurosynth_ids[0])):
       print "Found dois in NeuroSynth database..."
+      ids["doi"] = neurosynth_ids
       # Find intersection
     else:
       print "Found pmids in NeuroSynth database..."
-    return neurosynth_ids
+      ids["pmid"] = neurosynth_ids
+    return ids
+
+def getAuthor(db,id):
+   """Extract author names for a given pmid or doi"""
+   article = db.get_mappables(id)
+   meta = article[0].__dict__
+   tmp = meta['data']['authors']
+   tmp = tmp.split(",")
+   authors = [ x.strip("^ ") for x in tmp]
+   return authors
+
+def getAuthors(db):
+   """Extract all author names in database"""
+   articles = db.mappables
+   uniqueAuthors = []
+   for article in articles:
+     meta = article[0].__dict__
+     tmp = meta['data']['authors']
+     tmp = tmp.split(",")
+     authors = [ x.strip("^ ") for x in tmp]
+     for a in authors:
+       uniqueAuthors.append(a)
+   uniqueAuthors = np.unique(uniqueAuthors)
+   return uniqueAuthors
 
 # -- PUBMED FUNCTIONS --------------------------------------------------------------
 # These functions will find papers of interest to crosslist with Neurosynth
