@@ -33,5 +33,5 @@ for i in range(0,len(uuids)):
   # Usage : authorSynth_cluster.py uuid "author" email outdirectory
   filey.writelines("/home/vsochat/python-lapack-blas/bin/python /home/vsochat/SCRIPT/python/authorSynth/authorSynth_cluster.py " + uuids[i] + " \"" + authors[i] + "\" " + email + " " + outdirectory + "\n")
   filey.close()
-  os.system("sbatch " + ".job/" + ids[i] + ".job")
+  os.system("sbatch " + ".job/" + uuids[i] + ".job")
 
