@@ -8,6 +8,7 @@ import os
 # crosslist with NeuroSynth database 
 outdirectory = "/scratch/users/vsochat/DATA/BRAINMAP/authorSynth/brainmapsHighlyCited"
 email = "vsochat@stanford.edu"
+dbsize = "3000"  # either 525 or 3000
 
 # Read in our list of authors
 filey = open("data/highly_cited_2014_final.csv","r")
@@ -34,7 +35,7 @@ for i in range(0,len(uuids)):
   filey.writelines("#SBATCH --time=2-00:00\n")
   filey.writelines("#SBATCH --mem=12000\n")
   # Usage : authorSynth_cluster.py uuid "author" email outdirectory
-  filey.writelines("/home/vsochat/python-lapack-blas/bin/python /home/vsochat/SCRIPT/python/authorSynth/authorSynth_cluster.py " + uuids[i] + " \"" + authors[i] + "\" " + email + " " + outdirectory + "\n")
+  filey.writelines("/home/vsochat/python-lapack-blas/bin/python /home/vsochat/SCRIPT/python/authorSynth/authorSynth_cluster.py " + uuids[i] + " \"" + authors[i] + "\" " + email + " " + outdirectory + " " + dbsize + "\n")
   filey.close()
   os.system("sbatch " + ".job/" + uuids[i] + ".job")
 

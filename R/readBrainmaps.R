@@ -3,8 +3,7 @@
 
 library(Rniftilib)
 library("R.utils")
-datadir = "/scratch/users/vsochat/DATA/BRAINMAP/authorSynth/"
-datadir = "/home/vanessa/Documents/Work/NEUROSYNTH/authorSynth/brainmaps"
+datadir = "/home/vanessa/Documents/Work/NEUROSYNTH/authorSynth/brainmapsNeuroSynth"
 setwd(datadir)
 mr = list.files(datadir,pattern="_pFgA_z_FDR_0.05.nii")
 
@@ -24,4 +23,4 @@ for (m in 2:length(mr)){
 }
 
 rownames(authorBrains) = gsub("pFgA_z_FDR_0.05.nii.gz","",mr)
-save(authorBrains,file="authorBrains.Rda")
+save(authorBrains,file="authorBrainsNeuroSynth.Rda")

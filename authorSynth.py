@@ -41,20 +41,69 @@ def neurosynthInit(dbsize):
     return db
 
 def neurosynthMatch(db,papers,author,outdir=None,outprefix=None):
-    """Match neurosynth doi with papers doi"""
-    dois = papers[0].keys()
-    pmid = papers[1].keys()
+    """Match neurosynth id with papers id"""
+
     # Get all IDs in neuroSynth
     neurosynth_ids = self.getIDs(db)
+    
+    # NOTE: Code below is ugly.  Needs to be fixed!
+    # It has to be able to handle a single string OR a list
 
-    # Determine if we have dois or pmids
-    if neurosynth_ids.keys()[0] == "doi":
-      print "Search for " + str(len(dois)) + " ids in NeuroSynth database..."
-      # Find intersection
-      valid_ids = [x for x in dois if x in neurosynth_ids.values()]
+    # ONE ID ------------------------------------------------------------
+    if isinstance(papers, basestring):  
+      # Input is DOI with one paper
+      if bool(re.search("[/]",papers)):
+        # NeuroSynth is also DOI
+        if neurosynth_ids.keys()[0] == "doi":
+          print "Search for 1 id in NeuroSynth database..."
+          if ids in neurosynth_ids.values():
+            valid_ids = ids
+          else:
+            print "ERROR: id " + ids + " is not in NeuroSynth database."
+            sys.exit()
+        # Neurosynth is PMID
+        else:
+          print "ERROR: Please provide doi to use the 525 database!"
+          sys.exit()
+      # Input is pmid with one paper
+      else:
+        # NeuroSynth is also pmid
+        if neurosynth_ids.keys()[0] == "pmid":
+          print "Search for 1 id in NeuroSynth database..."
+          if ids in neurosynth_ids.values():
+            valid_ids = ids
+          else:
+            print "ERROR: id " + ids + " is not in NeuroSynth database."
+            sys.exit()
+        # Neurosynth is doi
+        else:
+          print "ERROR: Please provide pmid to use the 3000 database!"
+          sys.exit()
+    # LIST OF IDS ---------------------------------------------------------
     else:
-      print "Search for " + str(len(pmid)) + " ids in NeuroSynth database..."
-      valid_ids = [str(x) for x in pmid if str(x) in neurosynth_ids.values()]
+      # Input is DOI with list of papers
+      if bool(re.search("[/]",papers[0])):
+        # NeuroSynth is also DOI
+        if neurosynth_ids.keys()[0] == "doi":
+          print "Search for " + str(len(ids)) + " ids in NeuroSynth database..."
+          # Find intersection
+          valid_ids = [x for x in ids if x in neurosynth_ids.values()]
+        # Neurosynth is PMID
+        else:
+          print "ERROR: Please provide doi to use the 525 database!"
+          sys.exit()
+      # Input is pmid with list of papers
+      else:
+        # NeuroSynth is also pmid
+        if neurosynth_ids.keys()[0] == "pmid":
+          print "Search for " + str(len(ids)) + " ids in NeuroSynth database..."
+          # Find intersection
+          valid_ids = [x for x in ids if x in neurosynth_ids.values()]
+        # Neurosynth is doi
+        else:
+          print "ERROR: Please provide pmid to use the 3000 database!"
+          sys.exit()
+
     print "Found " + str(len(valid_ids)) + "."
     
     if (len(valid_ids) > 0):

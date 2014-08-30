@@ -17,15 +17,13 @@ author = sys.argv[2]
 outdirectory = sys.argv[3]
 ids = sys.argv[4]
 
-# Put papers into dictionary
-papers = dict()
+papers = []
 if bool(re.search("[/]",ids[0])):
   print "Input are DOI"
-  papers["doi"] = ids.split(",")
+  papers = ids.split(",")
 else:
-  print "Found pmids in NeuroSynth database..."
-  print "Retrieve with ids['pmid']"
-  papers["pmid"] = ids.split(",")
+  print "Input are pmid..."
+  papers = ids
 
 # Init Neurosynth database, use "3000" terms
 db = AS.neurosynthInit("3000")
