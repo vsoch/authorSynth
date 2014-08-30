@@ -52,18 +52,22 @@ header = filey.pop(0).strip("\n").split("\t")
 pindex = header.index("AUTHOR")
 uindex = header.index("UUIDS")
 iindex = header.index("PMIDS")
+nindex = header.index("NUMPAPERS")
 
 # We will keep lists of uuids and author names
 uuids = []
 authors = []
 ids = []
+numpapers = []
 for f in filey:
   uuids.append(f.strip("\n").split("\t")[uindex])
   authors.append(f.strip("\n").split("\t")[pindex])
   ids.append(f.strip("\n").split("\t")[iindex])
+  numpapers.append(f.strip("\n").split("\t")[nindex])
 
 # Prepare and submit a job for each
 for i in range(0,len(uuids)):
+for i in range(0,4900):
   filey = ".job/" + uuids[i] + ".job"
   filey = open(filey,"w")
   filey.writelines("#!/bin/bash\n")
