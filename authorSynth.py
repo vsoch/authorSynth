@@ -55,9 +55,9 @@ def neurosynthMatch(db,papers,author,outdir=None,outprefix=None):
       # Input is DOI with one paper
       if bool(re.search("[/]",papers)):
         # NeuroSynth is also DOI
-        if neurosynth_ids.keys()[0] == "doi":
+        if bool(re.search("[/]",neurosynth_ids[0])):
           print "Search for 1 id in NeuroSynth database..."
-          if papers in neurosynth_ids.values():
+          if papers in neurosynth_ids:
             valid_ids = papers
           else:
             print "ERROR: id " + papers + " is not in NeuroSynth database."
@@ -69,9 +69,9 @@ def neurosynthMatch(db,papers,author,outdir=None,outprefix=None):
       # Input is pmid with one paper
       else:
         # NeuroSynth is also pmid
-        if neurosynth_ids.keys()[0] == "pmid":
+        if not bool(re.search("[/]",neurosynth_ids[0])):
           print "Search for 1 id in NeuroSynth database..."
-          if papers in neurosynth_ids.values():
+          if papers in neurosynth_ids:
             valid_ids = papers
           else:
             print "ERROR: id " + papers + " is not in NeuroSynth database."
@@ -85,10 +85,10 @@ def neurosynthMatch(db,papers,author,outdir=None,outprefix=None):
       # Input is DOI with list of papers
       if bool(re.search("[/]",papers[0])):
         # NeuroSynth is also DOI
-        if neurosynth_ids.keys()[0] == "doi":
+        if bool(re.search("[/]",neurosynth_ids[0])):
           print "Search for " + str(len(papers)) + " ids in NeuroSynth database..."
           # Find intersection
-          valid_ids = [x for x in papers if x in neurosynth_ids.values()]
+          valid_ids = [x for x in papers if x in neurosynth_ids]
         # Neurosynth is PMID
         else:
           print "ERROR: Please provide doi to use the 525 database!"
@@ -96,10 +96,10 @@ def neurosynthMatch(db,papers,author,outdir=None,outprefix=None):
       # Input is pmid with list of papers
       else:
         # NeuroSynth is also pmid
-        if neurosynth_ids.keys()[0] == "pmid":
+        if not bool(re.search("[/]",neurosynth_ids[0])):
           print "Search for " + str(len(papers)) + " ids in NeuroSynth database..."
           # Find intersection
-          valid_ids = [x for x in papers if x in neurosynth_ids.values()]
+          valid_ids = [x for x in papers if x in neurosynth_ids]
         # Neurosynth is doi
         else:
           print "ERROR: Please provide pmid to use the 3000 database!"
@@ -140,17 +140,14 @@ def getIDs(db):
     # Get all IDs in neuroSynth
     neurosynth_ids = db.image_table.ids
 
-    ids = dict()
     # Determine if we have dois or pmids
     if bool(re.search("[/]",neurosynth_ids[0])):
       print "Found dois in NeuroSynth database..."
-      print "Retrieve with ids['doi']"
-      ids["doi"] = neurosynth_ids
+      ids = neurosynth_ids
       # Find intersection
     else:
       print "Found pmids in NeuroSynth database..."
-      print "Retrieve with ids['pmid']"
-      ids["pmid"] = neurosynth_ids
+      ids = neurosynth_ids
     return ids
 
 def getAuthor(db,id):
