@@ -104,8 +104,6 @@ def neurosynthMatch(db,papers,author,outdir=None,outprefix=None):
         else:
           print "ERROR: Please provide pmid to use the 3000 database!"
           sys.exit()
-
-    print "Found " + str(len(valid_ids)) + "."
     
     if (len(valid_ids) > 0):
       # Do meta analysis
