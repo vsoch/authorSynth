@@ -5,7 +5,7 @@ The first workflow works with Pubmed and the NeuroSynth database to create the m
 ## Creation of Author Brain Maps
 
 ### authorExtract.py
-Given a list of PMIDs and a user email address, this script will query Entrez Pubmed and return an array of unique authors along with their frequency of PMID mentions
+This script will extract Authors from the NeuroSynth database, including Name, a unique ID, PI status, pmids, and number of publications.
 
 ### authorSynth.py
 This is the main module to import into a script that includes the following functions:
@@ -13,18 +13,31 @@ This is the main module to import into a script that includes the following func
 - getFeatures(db): returns features (behavioral terms)
 - getArticles(author,email): returns dictionaries of dois nd pmids for author query ("Last FM")
 - neurosynthMatch(db,papers,author,outdir,outprefix): matches papers to neurosynth and makes brain map
+- getAuthor(db,pmid): returns list of authors for a single pmid or doi
+- getAuthors(db): returns all authors in the NeuroSynth database
+- getIDs(db): returns all pmid or doi from the NeuroSynth database
 
 ### run_authorSynth_local.py
 Includes examples for running authorSynth locally for one or more authors to create the brain maps
 
 ### run_authorSynthc_cluster.py
-Includes examples for running authorSynth in a cluster environment by submitting multiple jobs of:
+Includes examples for running authorSynth in a cluster environment by submitting multiple jobs of either:
+
+### authorSynth_cluster_pubmed.py
+Takes command line arguments uuid, author, email, and outdirectory to batch process creation of author brain maps.
+This script is if you want to look up authors on pubmed, and cross list them with NeuroSynth database.  This is likely
+to return a smaller result.
+
+Usage : authorSynth_cluster_pubmed.py uuid "author" email outdirectory
 
 ### authorSynth_cluster.py
-Takes command line arguments uuid, author, email, and outdirectory to batch process creation of author brain maps.
+Takes command line arguments uuid, author, email, outdirectory, and paper ids to batch process creation of author brain maps.
+This script is if you already have a list of authors and paper ids and want to generate the brain maps without querying pubmed.
 
-Usage : authorSynth_cluster.py uuid "author" email outdirectory
+Usage : authorSynth_cluster.py uuid "author" email outdirectory id1,id2,id3
 
+## authorLookup.R
+This script will start with a list of authors, and look up their name on pubmed, as determined by the one that appears most frequently in the query (Based on the idea that we are working with most highly cited authors).  The nature of Pubmed makes running this script a little buggy - it is recommended to walk through manually, and carefully.
 
 ## Analysis of Author Brain Maps
 
