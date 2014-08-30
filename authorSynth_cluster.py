@@ -9,6 +9,7 @@
 # import authorSynth module
 import authorSynth as AS
 import sys
+import re
 
 # Get arguments
 uuid = sys.argv[1]
