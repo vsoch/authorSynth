@@ -66,19 +66,19 @@ for f in filey:
   numpapers.append(f.strip("\n").split("\t")[nindex])
 
 # Prepare and submit a job for each
-for i in range(0,len(uuids)):
-for i in range(4900,4900+5000):
-  filey = ".job/" + uuids[i] + ".job"
-  filey = open(filey,"w")
-  filey.writelines("#!/bin/bash\n")
-  filey.writelines("#SBATCH --job-name=" + uuids[i] + "\n")
-  filey.writelines("#SBATCH --output=.out/" + uuids[i] + ".out\n")
-  filey.writelines("#SBATCH --error=.out/" + uuids[i] + ".err\n")
-  filey.writelines("#SBATCH --time=2-00:00\n")
-  filey.writelines("#SBATCH --mem=12000\n")
-  # Usage : authorSynth_cluster.py uuid "author" email outdirectory
-  filey.writelines("/home/vsochat/python-lapack-blas/bin/python /home/vsochat/SCRIPT/python/authorSynth/authorSynth_cluster.py " + uuids[i] + " \"" + authors[i] + "\" " + outdirectory + " " + ids[i] + "\n")
-  filey.close()
-  os.system("sbatch " + ".job/" + uuids[i] + ".job")
+for i in range(5000,len(uuids)):
+  if numpapers[i] != "1":
+    filey = ".job/" + uuids[i] + ".job"
+    filey = open(filey,"w")
+    filey.writelines("#!/bin/bash\n")
+    filey.writelines("#SBATCH --job-name=" + uuids[i] + "\n")
+    filey.writelines("#SBATCH --output=.out/" + uuids[i] + ".out\n")
+    filey.writelines("#SBATCH --error=.out/" + uuids[i] + ".err\n")
+    filey.writelines("#SBATCH --time=2-00:00\n")
+    filey.writelines("#SBATCH --mem=12000\n")
+    # Usage : authorSynth_cluster.py uuid "author" email outdirectory
+    filey.writelines("/home/vsochat/python-lapack-blas/bin/python /home/vsochat/SCRIPT/python/authorSynth/authorSynth_cluster.py " + uuids[i] + " \"" + authors[i] + "\" " + outdirectory + " " + ids[i] + "\n")
+    filey.close()
+    os.system("sbatch " + ".job/" + uuids[i] + ".job")
 
 
