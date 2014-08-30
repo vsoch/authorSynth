@@ -13,9 +13,8 @@ import sys
 # Get arguments
 uuid = sys.argv[1]
 author = sys.argv[2]
-email = sys.argv[3]
-outdirectory = sys.argv[4]
-ids = sys.argv[5]
+outdirectory = sys.argv[3]
+ids = sys.argv[4]
 
 # Put papers into dictionary
 papers = dict()
