@@ -44,7 +44,7 @@ def neurosynthMatch(db,papers,author,outdir=None,outprefix=None):
     """Match neurosynth id with papers id"""
 
     # Get all IDs in neuroSynth
-    neurosynth_ids = self.getIDs(db)
+    neurosynth_ids = getIDs(db)
     
     # NOTE: Code below is ugly.  Needs to be fixed!
     # It has to be able to handle a single string OR a list
