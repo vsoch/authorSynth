@@ -26,6 +26,7 @@ import nibabel as nb
 from nibabel import nifti1
 from Bio import Entrez
 import re
+import sys
 
 # -- NEUROSYNTH FUNCTIONS --------------------------------------------------------------
 
