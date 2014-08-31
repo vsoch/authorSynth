@@ -68,7 +68,7 @@ for f in filey:
 count = 0
 
 # Prepare and submit a job for each
-for i in range(15000,length(uuids)):
+for i in range(0,len(uuids)):
   fname = outdirectory + "/" + uuids[i] + "_pFgA_given_pF=0.50.nii.gz"
   if not os.path.isfile(fname):
     filey = ".job/" + uuids[i] + ".job"
