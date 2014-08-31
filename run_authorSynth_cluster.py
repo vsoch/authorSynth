@@ -65,16 +65,20 @@ for f in filey:
   ids.append(f.strip("\n").split("\t")[iindex])
   numpapers.append(f.strip("\n").split("\t")[nindex])
 
+count = 0
+
 # Prepare and submit a job for each
-for i in range(5000,len(uuids)):
-  if numpapers[i] != "1":
+for i in range(15000,length(uuids)):
+  fname = outdirectory + "/" + uuids[i] + "_pFgA_given_pF=0.50.nii.gz"
+  if not os.path.isfile(fname):
     filey = ".job/" + uuids[i] + ".job"
+    count = count + 1
     filey = open(filey,"w")
     filey.writelines("#!/bin/bash\n")
     filey.writelines("#SBATCH --job-name=" + uuids[i] + "\n")
     filey.writelines("#SBATCH --output=.out/" + uuids[i] + ".out\n")
     filey.writelines("#SBATCH --error=.out/" + uuids[i] + ".err\n")
-    filey.writelines("#SBATCH --time=2-00:00\n")
+    filey.writelines("#SBATCH --time=1-00:00\n")
     filey.writelines("#SBATCH --mem=12000\n")
     # Usage : authorSynth_cluster.py uuid "author" email outdirectory
     filey.writelines("/home/vsochat/python-lapack-blas/bin/python /home/vsochat/SCRIPT/python/authorSynth/authorSynth_cluster.py " + uuids[i] + " \"" + authors[i] + "\" " + outdirectory + " " + ids[i] + "\n")
