@@ -1,5 +1,11 @@
 setwd("/home/vanessa/Documents/Dropbox/Code/Python/authorSynth")
-setwd("C:\\Users\\Vanessa\\Documents\\Dropbox\\Code\\Python\\authorSynth\\data\\atlas")
+#setwd("C:\\Users\\Vanessa\\Documents\\Dropbox\\Code\\Python\\authorSynth\\data\\atlas")
+
+# AUTHOR 17K WORK -------------------------------------------------------------
+load("regionalFeaturesFilter17931.Rda")
+
+
+# AUTHOR 124 WORK -------------------------------------------------------------
 load("authorBrains.Rda")
 library(reshape2)
 library(ade4)
