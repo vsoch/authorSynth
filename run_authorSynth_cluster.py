@@ -67,6 +67,9 @@ for f in filey:
 
 count = 0
 
+# STOPPED HERE - need to run this one more time,
+# then do run_makeBrainFeatures, then do parseBrainFeatures (and push to rep)
+# and then authorNetwork, and then authord3!
 # Prepare and submit a job for each
 for i in range(0,len(uuids)):
   fname = outdirectory + "/" + uuids[i] + "_pFgA_given_pF=0.50.nii.gz"
