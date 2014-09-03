@@ -39,5 +39,5 @@ for foo in range(len(copmid)):
  pmid = copmid[foo][1]
  numpap = len(pmid)
  pmid = ",".join(pmid)
- line = uuid + "\t" + pmid + "\t" + "\t" + str(numpap) + "\n"
+ line = uuid + "\t" + pmid + "\t" + str(numpap) + "\n"
  outfile.writelines(line)
