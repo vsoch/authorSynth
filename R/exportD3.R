@@ -14,8 +14,6 @@ authors = read.csv("authors.txt",sep="\t",head=TRUE)
 
 # WORK WITH CAUTHORS.TXT --------------------------------------
 cauth = read.table("coauthnet.txt",sep="\t",head=FALSE,skip=1) 
-# Header is incorrect and extra space we need to fix
-cauth = cauth[,-3]
 colnames(cauth) = c("UUID","PMID","NUMPAPERS")
 
 # We don't have maps for these
