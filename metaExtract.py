@@ -44,7 +44,7 @@ for a, dat in meta.iteritems():
       peaks = d[0][6]
       for p in range(0,len(peaks)):
         x = peaks[p][0]; y = peaks[p][1]; z=peaks[p][2]
-        filey.writelines(a + "\t" + d[0][5] + "\t" + d[0][4] + "\t" + d[0][1] + "\t" + d[0][0] + "\t" + d[0][2] + "\t" + d[0][3] + "\t" + d[0][4] + "\t" + x + "\t" + y + "\t" + z + "\n")
+        filey.writelines(a + "\t" + d[0][5] + "\t" + d[0][4] + "\t" + d[0][1] + "\t" + d[0][0] + "\t" + d[0][2] + "\t" + d[0][3] + "\t" + x + "\t" + y + "\t" + z + "\n")
     filey.close()
   else:
     print "Skipping " + a
