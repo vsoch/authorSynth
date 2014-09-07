@@ -209,3 +209,34 @@ network = list(graph=qg,institution=institution,countries=countries,distData = c
 save(network,file="../authorNetworkRegionSim125.Rda")
 
 # Now let's extract stuff from this matrix so that we can make d3!
+
+# Here is work for NeuroSynth PI AUthors (from set of 17K)
+# Work for neuroSynth PI subset
+load("/home/vanessa/Documents/Work/NEUROSYNTH/authorSynth/scoresNeuroSynth/allScoresPI17KAuthors.Rda")
+data = somMatch$cos
+
+# Read in author labels
+auth = read.csv("/home/vanessa/Documents/Dropbox/Code/Python/authorSynth/data/authors.txt",sep="\t",head=TRUE)
+names = as.character(auth$AUTHOR[match(rownames(data),auth$UUIDS)])
+uuids = as.character(auth$UUIDS[match(rownames(data),auth$UUIDS)])
+disty = dist(data)
+hc = hclust(disty)
+hc$labels = names
+plot(hc,main="Clustering Neuroscience Authors Based on Cosine Distance to SOM Maps")
+
+# Let's make multiple output files for different cuttings of the tree
+outfolder = "/home/vanessa/Documents/Work/NEUROSYNTH/authorSynth/groups"
+heights = c(1,1.25,1.5,1.75,2)
+for (h in heights){
+  groups = cutree(hc,h=h)
+  out = as.data.frame(cbind(names(groups),as.numeric(groups),uuids))
+  colnames(out) = c("AUTHOR","GROUP","UUID")
+  save(out,file=paste(outfolder,"/groups_h_",h,".Rda",sep=""))
+}
+levels = c(5,10,15,20,25,30,50,60,70,80,90,100) 
+for (h in levels){
+  groups = cutree(hc,k=h)
+  out = as.data.frame(cbind(names(groups),as.numeric(groups),uuids))
+  colnames(out) = c("AUTHOR","GROUP","UUID")
+  save(out,file=paste(outfolder,"/groups_level_",h,".Rda",sep=""))
+}

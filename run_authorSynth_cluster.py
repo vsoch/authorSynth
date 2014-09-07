@@ -53,39 +53,35 @@ pindex = header.index("AUTHOR")
 uindex = header.index("UUIDS")
 iindex = header.index("PMIDS")
 nindex = header.index("NUMPAPERS")
+piindex = header.index("PI")
 
 # We will keep lists of uuids and author names
 uuids = []
 authors = []
 ids = []
 numpapers = []
+pi = []
 for f in filey:
   uuids.append(f.strip("\n").split("\t")[uindex])
   authors.append(f.strip("\n").split("\t")[pindex])
   ids.append(f.strip("\n").split("\t")[iindex])
   numpapers.append(f.strip("\n").split("\t")[nindex])
+  pi.append(f.strip("\n").split("\t")[piindex])
 
-count = 0
-
-# STOPPED HERE - need to run this one more time,
-# then do run_makeBrainFeatures, then do parseBrainFeatures (and push to rep)
-# and then authorNetwork, and then authord3!
 # Prepare and submit a job for each
-for i in range(0,len(uuids)):
-  fname = outdirectory + "/" + uuids[i] + "_pFgA_given_pF=0.50.nii.gz"
-  if not os.path.isfile(fname):
-    filey = ".job/" + uuids[i] + ".job"
-    count = count + 1
-    filey = open(filey,"w")
-    filey.writelines("#!/bin/bash\n")
-    filey.writelines("#SBATCH --job-name=" + uuids[i] + "\n")
-    filey.writelines("#SBATCH --output=.out/" + uuids[i] + ".out\n")
-    filey.writelines("#SBATCH --error=.out/" + uuids[i] + ".err\n")
-    filey.writelines("#SBATCH --time=1-00:00\n")
-    filey.writelines("#SBATCH --mem=12000\n")
-    # Usage : authorSynth_cluster.py uuid "author" email outdirectory
-    filey.writelines("/home/vsochat/python-lapack-blas/bin/python /home/vsochat/SCRIPT/python/authorSynth/authorSynth_cluster.py " + uuids[i] + " \"" + authors[i] + "\" " + outdirectory + " " + ids[i] + "\n")
-    filey.close()
-    os.system("sbatch " + ".job/" + uuids[i] + ".job")
-
-
+for i in range(1,len(uuids)):
+  fname = outdirectory + "/" + uuids[i] + "_pAgF_given_pF=0.50.nii.gz"
+  if pi[i] == "1":
+    if not os.path.isfile(fname):
+      filey = ".job/" + uuids[i] + ".job"
+      filey = open(filey,"w")
+      filey.writelines("#!/bin/bash\n")
+      filey.writelines("#SBATCH --job-name=" + uuids[i] + "\n")
+      filey.writelines("#SBATCH --output=.out/" + uuids[i] + ".out\n")
+      filey.writelines("#SBATCH --error=.out/" + uuids[i] + ".err\n")
+      filey.writelines("#SBATCH --time=1-00:00\n")
+      filey.writelines("#SBATCH --mem=12000\n")
+      # Usage : authorSynth_cluster.py uuid "author" email outdirectory
+      filey.writelines("/home/vsochat/python-lapack-blas/bin/python /home/vsochat/SCRIPT/python/authorSynth/authorSynth_cluster.py " + uuids[i] + " \"" + authors[i] + "\" " + outdirectory + " " + ids[i] + "\n")
+      filey.close()
+      os.system("sbatch " + ".job/" + uuids[i] + ".job")

@@ -82,11 +82,14 @@ def neurosynthMatch(db,papers,author,outdir=None,outprefix=None):
       data = ma.images[ma.images.keys()[7]]
       # 4) the probability of feature given activation, Z score
       dataZ = ma.images[ma.images.keys()[8]]
+      # 5) z score map corresponding to the probability of activation given that a study is tagged with the feature (author)
+      datapAgF = ma.images[ma.images.keys()[4]]
       # If user specifies an output directory
       if outdir:
         print "Saving results to output directory " + outdir + "..."
         if not outprefix:
           outprefix = author.replace(" ","")
+        imageutils.save_img(datapAgF, '%s/%s_pAgF_z_FDR_0.05.nii.gz' % (outdir, outprefix), db.volume)
         imageutils.save_img(dataFDR, '%s/%s_pFgA_z_FDR_0.05.nii.gz' % (outdir, outprefix), db.volume)
         imageutils.save_img(dataPRIOR, '%s/%s_pFgA_given_pF=0.50.nii.gz' % (outdir, outprefix), db.volume)
         imageutils.save_img(data, '%s/%s_pFgA.nii.gz' % (outdir, outprefix), db.volume)

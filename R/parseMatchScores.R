@@ -1,8 +1,8 @@
 library('RColorBrewer')
-setwd('/scratch/users/vsochat/DATA/BRAINMAP/nsynth525pFgA/scores')
+setwd('/scratch/users/vsochat/DATA/BRAINMAP/nsynth525pFgA/scoresNeuroSynth')
 
 # Here are matching scores of authorBrains to 506 SOM images
-inputfiles = list.files("/scratch/users/vsochat/DATA/BRAINMAP/nsynth525pFgA/scores",pattern="_score.Rda")
+inputfiles = list.files("/scratch/users/vsochat/DATA/BRAINMAP/nsynth525pFgA/scoresNeuroSynth",pattern="_score.Rda")
 load(inputfiles[1])
 
 # Create a matrix for each distance metric
@@ -14,7 +14,9 @@ data.so = data.euc
 data.func = data.euc
 
 # Fill in the data matrices
-for (f in inputfiles){
+for (ff in 1:length(inputfiles)){
+  cat("Processing",ff,"of",length(inputfiles),"\n")
+  f = inputfiles[ff]
   load(f)
   uuid = gsub("_pFgA_z_FDR_0.05_score.Rda","",f)
   data.euc[uuid,names(match$euc)] = match$euc
@@ -25,9 +27,9 @@ for (f in inputfiles){
 
 note = c("euc:Euclidean Distance,cos:cosine distance,so:shared voxels as % SOM map,func:shared voxels as % authorBrain map")
 somMatch = list(euc=data.euc,cos=data.cos,so=data.so,authorMap=data.func,readme=note)
-save(somMatch,file = 'allScores124.Rda')
+save(somMatch,file = 'allScoresPI17KAuthors.Rda')
 
-# Quickly try clustering - this may be the beset way to do it!
+# Quickly try clustering - this may be the best way to do it!
 load("/scratch/users/vsochat/DATA/BRAINMAP/authorSynth/authorNameLookup.Rda")
 lookup = as.data.frame(lookup)
 idx = match(rownames(data.euc),lookup$uuids)
@@ -40,7 +42,3 @@ rownames(data.func) = names
 # Save in case we want with author names for later
 somAuthorMatch = list(euc=data.euc,cos=data.cos,so=data.so,authorMap=data.func,readme=note)
 save(somAuthorMatch,file = 'allScoresAuthorNames124.Rda')
-
-disty = dist(data.so)
-hc = hclust(disty)
-plot(hc,main="Clustering Neuroscience Authors Based on Overlap SOM/authors as % of SOM Maps")
