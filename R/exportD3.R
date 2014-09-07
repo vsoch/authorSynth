@@ -3,7 +3,7 @@
 
 setwd("/home/vanessa/Documents/Dropbox/Code/Python/authorSynth/data")
 outdir = "/home/vanessa/Documents/Work/NEUROSYNTH/authorSynth/d3"
-groupdir = "/home/vanessa/Documents/Work/NEUROSYNTH/authorSynth/groups"
+groupdir = "/home/vanessa/Documents/Work/NEUROSYNTH/authorSynth/groups/pFgA"
 
 # Here are the different files for defining colors
 groups =  list.files(groupdir,pattern="*.Rda",full.names=TRUE)

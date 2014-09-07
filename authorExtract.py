@@ -62,9 +62,3 @@ for a in range(0,len(authors)):
     numpapers = str(len(pmids[aa]))
   line = aa + "\t" + str(uuids[a]) + "\t" + str(p) + "\t" + str(pi[aa]) + "\t" + str(numpapers) + "\n"
   filey.writelines(line)
-
-
-
-
-
-

@@ -46,27 +46,13 @@ for i in range(0,len(uuids)):
 # Read in our list of authors
 outdirectory = "/scratch/users/vsochat/DATA/BRAINMAP/authorSynth/brainmapsNeuroSynth"
 
-filey = open("data/authors.txt","r")
-filey = filey.readlines()
-header = filey.pop(0).strip("\n").split("\t")
-pindex = header.index("AUTHOR")
-uindex = header.index("UUIDS")
-iindex = header.index("PMIDS")
-nindex = header.index("NUMPAPERS")
-piindex = header.index("PI")
+authors = AS.getAuthorDatabase()
 
 # We will keep lists of uuids and author names
-uuids = []
-authors = []
-ids = []
-numpapers = []
-pi = []
-for f in filey:
-  uuids.append(f.strip("\n").split("\t")[uindex])
-  authors.append(f.strip("\n").split("\t")[pindex])
-  ids.append(f.strip("\n").split("\t")[iindex])
-  numpapers.append(f.strip("\n").split("\t")[nindex])
-  pi.append(f.strip("\n").split("\t")[piindex])
+uuids = authors["uuids"]
+ids = authors["ids"]
+numpapers = authors["numpapers"]
+authors = authors["authors"]
 
 # Prepare and submit a job for each
 for i in range(1,len(uuids)):

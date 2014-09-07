@@ -28,6 +28,45 @@ from Bio import Entrez
 import re
 import sys
 
+
+# -- AUTHORSYNTH DATABASE FUNCTIONS --------------------------------------------------------------
+
+def getAuthorDatabase():
+    """Return all authors in authorSynth database"""
+  filey = open("data/authors.txt","r")
+  filey = filey.readlines()
+  header = filey.pop(0).strip("\n").split("\t")
+  pindex = header.index("AUTHOR")
+  uindex = header.index("UUIDS")
+  iindex = header.index("PMIDS")
+  nindex = header.index("NUMPAPERS")
+  piindex = header.index("PI")
+
+  # We will keep lists of uuids and author names
+  uuids = []
+  authors = []
+  ids = []
+  numpapers = []
+  pi = []
+  for f in filey:
+    uuids.append(f.strip("\n").split("\t")[uindex])
+    authors.append(f.strip("\n").split("\t")[pindex])
+    ids.append(f.strip("\n").split("\t")[iindex])
+    numpapers.append(f.strip("\n").split("\t")[nindex])
+    pi.append(f.strip("\n").split("\t")[piindex])
+
+  authorSynth = dict()
+  authorSynth["uuids"] = uuids
+  authorSynth["authors"] = authors
+  authorSynth["ids"] = ids
+  authorSynth["numpapers"] = numpapers
+  authorSynth["pi"] = pi
+  return authorSynth
+
+def getCoauthorDatabase():
+    """Return all coauthors in authorSynth database"""
+    print "Function not yet written!"
+
 # -- NEUROSYNTH FUNCTIONS --------------------------------------------------------------
 
 def neurosynthInit(dbsize):
@@ -139,6 +178,24 @@ def getAuthors(db):
        uniqueAuthors.append(a)
    uniqueAuthors = list(np.unique(uniqueAuthors))
    return uniqueAuthors
+
+def getPaperMeta(db,pmid):
+   """Extract activation points and all meta information for a particular pmid"""
+   articles = db.mappables
+   m = []
+   for a in articles:
+       tmp = a.__dict__
+       if tmp['data']['id'] == str(pmid):
+         journal = tmp['data']['journal']
+         title = tmp['data']['title']
+         year = tmp['data']['year']
+         doi = tmp['data']['doi']
+         auth = tmp['data']['authors']
+         peaks = tmp['data']['peaks']
+         pmid = tmp['data']['id']
+         tmp = (journal,title,year,doi,pmid,auth,peaks)
+         m.append(tmp)
+   return m
 
 # -- PUBMED FUNCTIONS --------------------------------------------------------------
 # These functions will find papers of interest to crosslist with Neurosynth

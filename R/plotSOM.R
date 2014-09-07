@@ -31,10 +31,7 @@ auth = read.csv("/home/vanessa/Documents/Dropbox/Code/Python/authorSynth/data/au
 labels = as.character(auth$AUTHOR[match(authors,auth$UUIDS)])
 imgdir = "/home/vanessa/Documents/Work/NEUROSYNTH/authorSynth/imgNeuroSynth/euc/"
 
-# Try converting all euc distances between 0 and 1
-#data = somMatch$cos
-#data = (data - min(data)) / (max(data)-min(data))
-
+# Output images
 for (a in 1:length(authors)) {
   author = authors[a]
   dat = somMatch$cos[author,]
