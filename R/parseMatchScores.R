@@ -1,8 +1,8 @@
 library('RColorBrewer')
-setwd('/scratch/users/vsochat/DATA/BRAINMAP/nsynth525pFgA/scoresNeuroSynth')
+setwd('/scratch/users/vsochat/DATA/BRAINMAP/nsynth525pAgF/scores')
 
 # Here are matching scores of authorBrains to 506 SOM images
-inputfiles = list.files("/scratch/users/vsochat/DATA/BRAINMAP/nsynth525pFgA/scoresNeuroSynth",pattern="_score.Rda")
+inputfiles = list.files("/scratch/users/vsochat/DATA/BRAINMAP/nsynth525pAgF/scores",pattern="_score.Rda")
 load(inputfiles[1])
 
 # Create a matrix for each distance metric
@@ -27,7 +27,7 @@ for (ff in 1:length(inputfiles)){
 
 note = c("euc:Euclidean Distance,cos:cosine distance,so:shared voxels as % SOM map,func:shared voxels as % authorBrain map")
 somMatch = list(euc=data.euc,cos=data.cos,so=data.so,authorMap=data.func,readme=note)
-save(somMatch,file = 'allScoresPI17KAuthors.Rda')
+save(somMatch,file = '../allScoresPIAuthors3383.Rda')
 
 # Quickly try clustering - this may be the best way to do it!
 load("/scratch/users/vsochat/DATA/BRAINMAP/authorSynth/authorNameLookup.Rda")

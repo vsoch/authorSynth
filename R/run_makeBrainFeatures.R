@@ -4,16 +4,16 @@
 # cluster, since running this serially takes forever.
 
 datadir = "/scratch/users/vsochat/DATA/BRAINMAP/authorSynth/brainmapsNeuroSynth"
-authors = list.files(datadir,pattern="pFgA_z_FDR_0.05.nii",full.names=TRUE)
-files = list.files(datadir,pattern="pFgA_z_FDR_0.05.nii")
+authors = list.files(datadir,pattern="pAgF_z_FDR_0.05.nii",full.names=TRUE)
+files = list.files(datadir,pattern="pAgF_z_FDR_0.05.nii")
 
 # Set the output directory
-outfolder = "/scratch/users/vsochat/DATA/BRAINMAP/authorSynth/regionalFeatures"
+outfolder = "/scratch/users/vsochat/DATA/BRAINMAP/authorSynth/regionalFeaturespAgF"
 
 # Will only run job if output file does not exist
 for (i in 0:length(files)){
   mr = as.character(files[i])  
-  name = gsub("_pFgA_z_FDR_0.05.nii.gz","",mr)
+  name = gsub("_pAgF_z_FDR_0.05.nii.gz","",mr)
   outfile = paste(outfolder,"/",name,"_features.Rda",sep="")
   jobby = paste("RF_",name,".job",sep="")
   if (!file.exists(outfile)) {

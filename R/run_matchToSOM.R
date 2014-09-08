@@ -13,20 +13,28 @@ setwd("/home/vsochat/SCRIPT/python/authorSynth")
 
 # HERE IS FOR  HIGHLY CITED AUTHORS (154) ---------------------------------------------
 # Here are the authorBrainMap images
-authorBrains = "/scratch/users/vsochat/DATA/BRAINMAP/authorSynth"
+authorBrains = "/scratch/users/vsochat/DATA/BRAINMAP/authorSynth/brainmapsNeuroSynth"
 setwd(authorBrains)
-brains = list.files(pattern="*_pFgA_z_FDR_0.05.nii.gz")
+brains = list.files(pattern="*_pAgF_z_FDR_0.05.nii.gz")
 
 # Here is path to where SOM images are
+
+# This is for pFgA images
 somdir = "/scratch/users/vsochat/DATA/BRAINMAP/nsynth525pFgA/som8mm504"
+
+# This is for pAgF images
+somdir = "/scratch/users/vsochat/DATA/BRAINMAP/dimensionality_reduction/som_pAgF/som504"
+
 # This is the pattern for the image names
-pattern = "*2mm.nii"
+pattern = "*2mm.nii.gz"
+
 # Here is the output folder for match text files
-outfolder = "/scratch/users/vsochat/DATA/BRAINMAP/nsynth525pFgA/scores"
+outfolder = "/scratch/users/vsochat/DATA/BRAINMAP/nsynth525pAgF/scores"
+
 # Here is our standard space image, for printing images of the networks
 standard = file.path( getOption("fsl.path"), "data", "standard", "MNI152_T1_2mm_brain.nii.gz")
 # Directory for png images
-imgfunc = "/scratch/users/vsochat/DATA/BRAINMAP/nsynth525pFgA/img"
+imgfunc = "/scratch/users/vsochat/DATA/BRAINMAP/nsynth525pAgF/img"
 
 for (i in 1:length(brains)){
   mr = as.character(brains[i])  

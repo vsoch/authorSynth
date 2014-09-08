@@ -3,7 +3,7 @@
 
 setwd("/home/vanessa/Documents/Dropbox/Code/Python/authorSynth/data")
 outdir = "/home/vanessa/Documents/Work/NEUROSYNTH/authorSynth/d3"
-groupdir = "/home/vanessa/Documents/Work/NEUROSYNTH/authorSynth/groups/pFgA"
+groupdir = "/home/vanessa/Documents/Work/NEUROSYNTH/authorSynth/groups/pAgF"
 
 # Here are the different files for defining colors
 groups =  list.files(groupdir,pattern="*.Rda",full.names=TRUE)
@@ -78,9 +78,9 @@ for (g in groups){
   links = data.frame(source=from,target=to,weight=weight)
   
   # Now let's write the file
-  grouping = gsub("/home/vanessa/Documents/Work/NEUROSYNTH/authorSynth/groups/groups_","",gsub(".Rda","",g))
+  grouping = gsub("/home/vanessa/Documents/Work/NEUROSYNTH/authorSynth/groups/pAgF/groups_","",gsub(".Rda","",g))
   grouping = gsub("[.]","_",grouping)
-  sink(paste("/var/www/authorSynth/data/json/PInetwork_3258",grouping,".json",sep=""))
+  sink(paste("/var/www/authorSynth/data/PInetwork_3383",grouping,".json",sep=""))
   cat('{\n"nodes": [')
   
   # Here are the nodes

@@ -32,7 +32,7 @@ cat(somdir,pattern,mr,uuid,outfile,standard,imgfunc,sep="\n")
 # Get list of SOM images to match to
 soMR = list.files(somdir,pattern=pattern)
 # Here are labels for the matrix
-labels = as.numeric(gsub("_2mm.nii","",gsub("som_","",soMR)))
+labels = as.numeric(gsub("_2mm.nii.gz","",gsub("brainGrid","",soMR)))
 ordering = sort(labels,index.return=TRUE)
 ordering = ordering$ix
 

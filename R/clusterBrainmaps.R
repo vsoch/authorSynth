@@ -196,8 +196,11 @@ for (c in 1:length(unique(countries))){
   col[which(countries == con)] = colors[c]
 }
 
-qg = qgraph(dat, layout="spring",
-       label.cex=0.5, labels=colnames(dat), 
+matrix = as.dist(disty)
+thresh = matrix
+thresh[thresh<8] = 0
+qg = qgraph(thresh, layout="spring",
+       label.cex=0.5, labels=labels, 
        label.scale=FALSE,
        title="Neuroscience Author Literature Brain Map Similarity",
        posCol="green",negCol="red",
@@ -209,6 +212,7 @@ network = list(graph=qg,institution=institution,countries=countries,distData = c
 save(network,file="../authorNetworkRegionSim125.Rda")
 
 # Now let's extract stuff from this matrix so that we can make d3!
+# HERE IS HOW TO MAKE GROUPS FOR COLORING OF d3 PLOT
 
 # Here is work for NeuroSynth PI AUthors (from set of 17K)
 # Work for neuroSynth PI subset
@@ -225,8 +229,8 @@ hc$labels = names
 plot(hc,main="Clustering Neuroscience Authors Based on Cosine Distance to SOM Maps")
 
 # Let's make multiple output files for different cuttings of the tree
-outfolder = "/home/vanessa/Documents/Work/NEUROSYNTH/authorSynth/groups"
-heights = c(1,1.25,1.5,1.75,2)
+outfolder = "/home/vanessa/Documents/Work/NEUROSYNTH/authorSynth/groups/pAgF"
+heights = c(1,2,2.5,3,3.5,4)
 for (h in heights){
   groups = cutree(hc,h=h)
   out = as.data.frame(cbind(names(groups),as.numeric(groups),uuids))

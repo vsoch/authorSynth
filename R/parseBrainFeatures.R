@@ -1,8 +1,8 @@
 library('RColorBrewer')
-setwd('/scratch/users/vsochat/DATA/BRAINMAP/authorSynth/regionalFeatures')
+setwd('/scratch/users/vsochat/DATA/BRAINMAP/authorSynth/regionalFeaturespAgF')
 
 # AUTHORS 17931 WORK ----------------------------------------------------------
-# Here are matching scores of authorBrains to 506 SOM images
+# Here are regional vectors
 inputfiles = list.files(pattern="_features.Rda")
 load(inputfiles[1])
 
@@ -21,12 +21,12 @@ for (i in 1:length(inputfiles)){
 }
 
 # Save to file
-save(raw,file="../regionalFeaturesRaw17931.Rda")
+save(raw,file="../regionalFeaturespAgFRaw17931.Rda")
 
 # Find columns that are entirely empty
 idx = which(colSums(raw)==0)
 filter = raw[,-idx]
-save(filter,file="../regionalFeaturesFilter17931.Rda")
+save(filter,file="../regionalFeaturesFilterpAgF17931.Rda")
 
 # Look at distributions of features then...
 # Normalize?
