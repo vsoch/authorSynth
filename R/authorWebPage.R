@@ -3,16 +3,23 @@
 # - data for score table (author name, uuid, total collaboration score)
 # - for publications table, use script metaExtract.py
 
+# For the color palette
+library("RColorBrewer")
+rbPal <- colorRampPalette(brewer.pal(8,"YlOrRd"))
+
 setwd("/home/vanessa/Documents/Dropbox/Code/Python/authorSynth/data")
 
 # Here is out directory for brainlattice image data
-latticeoutdir = "/var/www/authorSynth/data/brainlattice"
+latticeoutdir = "/home/vanessa/Documents/Work/NEUROSYNTH/authorSynth/d3/brainlattice"
 
 # Here is output directory for match score data
 matchoutdir = "/home/vanessa/Documents/Work/NEUROSYNTH/authorSynth/d3/matchscores"
 
 # Here are text files with lab mates - collaborators who are not PIs
 laboutdir = "/home/vanessa/Documents/Work/NEUROSYNTH/authorSynth/d3/lab"
+
+# Here is where we get the list of highest uid matches to each node
+load("brainLattice506MatchedAuthorsColors.Rda") # brainLattice$UIDS
 
 # Here is author and coauthor data
 authors = read.csv("authors.txt",sep="\t",head=TRUE)
@@ -78,7 +85,7 @@ for (a in 1:length(authors$UUIDS)){
 save(labcollab,picollab,allcollab,file="collaboratorLists3383.Rda")
   
 # Now let's calculate scores, and save to file
-for (a in 612:length(authors$UUIDS)){
+for (a in 1:length(authors$UUIDS)){
   cat("Processing",a,"of",length(authors$UUIDS),"\n")
   uuid = as.character(authors$UUIDS[a])
   name = as.character(authors$AUTHOR[a])
@@ -138,13 +145,13 @@ for (a in 2759:length(authors$UUIDS)){
   color = rbPal(10)[as.numeric(cut(dat,breaks = 10))]
   color = color[-c(1,508)]
   dat = dat[-c(1,508)]
-  png(file=paste("/home/vanessa/Documents/Work/NEUROSYNTH/authorSynth/imgNeuroSynth/",uuid,".png",sep=""),width=14,height=14,units="in",res=300)
-  plot(brainMap$som$grid$pts,main=paste("Summary of Neuroscience Work for Author",labels[a]),col=color,xlab="Meta Brain Map Nodes",ylab="Meta Brain Map Nodes",pch=15,cex=8)
-  text(brainMap$som$grid$pts,brainMap$labels,cex=.5)   
-  dev.off()
+  #png(file=paste("/home/vanessa/Documents/Work/NEUROSYNTH/authorSynth/imgNeuroSynth/",uuid,".png",sep=""),width=14,height=14,units="in",res=300)
+  #plot(brainMap$som$grid$pts,main=paste("Summary of Neuroscience Work for Author",labels[a]),col=color,xlab="Meta Brain Map Nodes",ylab="Meta Brain Map Nodes",pch=15,cex=8)
+  #text(brainMap$som$grid$pts,brainMap$labels,cex=.5)   
+  #dev.off()
   
   # Now write scores and colors to file
-  res = cbind(rep(uuid,length(color)),rep(author,length(color)),d3,color,dat)
-  colnames(res) = c("UUID","AUTHOR","X","Y","TERMS","COLOR","SCORE")
+  res = cbind(rep(uuid,length(color)),rep(author,length(color)),d3,color,dat,brainLattice$UIDS)
+  colnames(res) = c("UUID","AUTHOR","X","Y","TERMS","COLOR","SCORE","UIDS")
   write.table(res,file=paste(latticeoutdir,"/",uuid,"_lattice.tsv",sep=""),quote=FALSE,row.names=FALSE,sep="\t")
 }
