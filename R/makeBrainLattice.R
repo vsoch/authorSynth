@@ -43,6 +43,10 @@ for (col in 1:ncol(data)){
   idx = which(scoresZ>1.96)
   Z = scoresZ[idx]
   raw = scores[idx]
+  # If we want to limit to only 50 results
+  if (length(Z)>50){
+    Z = Z[1:50]
+  }
   # Now create data frame to save to file
   uid = paste(names(Z),collapse=",")
   Z = paste(round(Z,3),collapse=",")
@@ -113,7 +117,20 @@ for (i in 1:length(groups)){
 # Now add a color value to each of our som nodes
 brainLattice = cbind(matchedAuthors,col,d3)
 colnames(brainLattice) = c("ZSCORE","RAW","UIDS","COLOR","X","Y","TERMS")
-save(brainLattice,file="brainLattice506MatchedAuthorsColors.Rda")
+save(brainLattice,file="brainLattice506MatchedAuthorsColors50.Rda")
 
 # Now write to text file to plot the SOM!
-write.table(brainLattice,paste(latticeoutdir,"/brainLattice506MatchedAuthorsColors15.tsv",sep=""),row.names=FALSE,quote=FALSE,sep="\t")
+write.table(brainLattice,paste(latticeoutdir,"/brainLattice506MatchedAuthorsColors50.tsv",sep=""),row.names=FALSE,quote=FALSE,sep="\t")
+
+# Here if we want to filter this file to only return 50 (browser cannot return > 50)
+load("brainLattice506MatchedAuthorsColors.Rda")
+brainLattice$UIDS = as.character(brainLattice$UIDS)
+for (b in 1:nrow(brainLattice)){
+  uids = brainLattice$UIDS[b]
+  uids = strsplit(uids,",")
+  if (length(uids)>50){
+    uids = uids[1:50]
+  }
+  uids = gsub(" ","",gsub('"',"",uids))
+  uids = paste(uids,collapse=",")
+}

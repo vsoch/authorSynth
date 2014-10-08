@@ -145,11 +145,11 @@ for (a in 2759:length(authors$UUIDS)){
   color = rbPal(10)[as.numeric(cut(dat,breaks = 10))]
   color = color[-c(1,508)]
   dat = dat[-c(1,508)]
-  #png(file=paste("/home/vanessa/Documents/Work/NEUROSYNTH/authorSynth/imgNeuroSynth/",uuid,".png",sep=""),width=14,height=14,units="in",res=300)
-  #plot(brainMap$som$grid$pts,main=paste("Summary of Neuroscience Work for Author",labels[a]),col=color,xlab="Meta Brain Map Nodes",ylab="Meta Brain Map Nodes",pch=15,cex=8)
-  #text(brainMap$som$grid$pts,brainMap$labels,cex=.5)   
-  #dev.off()
-  
+  png(file=paste("/home/vanessa/Documents/Work/NEUROSYNTH/authorSynth/imgNeuroSynth/",uuid,".png",sep=""),width=800,height=800,units="px")
+  plot(brainMap$som$grid$pts,main=paste("Summary of Neuroscience Work for Author",authors$AUTHOR[a]),col=color,xlab="Meta Brain Map Nodes",ylab="Meta Brain Map Nodes",pch=15,cex=8)
+  text(brainMap$som$grid$pts,brainMap$labels,cex=.5)   
+  dev.off()
+ 
   # Now write scores and colors to file
   res = cbind(rep(uuid,length(color)),rep(author,length(color)),d3,color,dat,brainLattice$UIDS)
   colnames(res) = c("UUID","AUTHOR","X","Y","TERMS","COLOR","SCORE","UIDS")

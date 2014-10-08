@@ -32,7 +32,7 @@ import sys
 # -- AUTHORSYNTH DATABASE FUNCTIONS --------------------------------------------------------------
 
 def getAuthorDatabase():
-    """Return all authors in authorSynth database"""
+  """Return all authors in authorSynth database"""
   filey = open("data/authors.txt","r")
   filey = filey.readlines()
   header = filey.pop(0).strip("\n").split("\t")
