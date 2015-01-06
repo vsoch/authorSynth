@@ -7,7 +7,6 @@ library('kohonen')
 library("Rniftilib")
 
 # Path to raw 525 neurosynth maps
-mrpath = "/scratch/users/vsochat/DATA/BRAINMAP/nsynth525pFgA/4mm"
 mrpath = "/home/vanessa/Documents/Work/NEUROSYNTH/nsynth525pFgA/8mm"
 mrs = list.files(mrpath,full.names=TRUE,pattern="*.nii")
 # To make the SOM, we've resampled neurosynth maps to 8mm
@@ -66,14 +65,14 @@ for (c in 1:nrow(som$codes)){
   nifti.set.filenames(template,paste("/home/vanessa/Documents/Work/NEUROSYNTH/nsynth525pFgA/som8mm504/som_",c,".nii",sep=""))
   nifti.image.write(template)  
 }
-# Here use resize_img in Matlab to resample X.nii to 8mm space, and then create
+# Here use (whatever software you like) to resample X.nii to 8mm space, and then create
 # transformation matrix of 8mm to 2mm:
 # flirt -in test/rX.nii -ref test/X.nii -omat standard8mmto2mm.mat -dof 6
 # flirt -in rX.nii -ref X.nii -applyxfm -init standard8mmto2mm.mat -out testoutput.nii.gz
 transform = "/scratch/users/vsochat/DATA/BRAINMAP/nsynth525pFgA/transform/standard8mmto2mm.mat"
 standard = "/scratch/users/vsochat/DATA/BRAINMAP/nsynth525pFgA/transform/X.nii"
 
-# Here we apply the above to register our brainMatrix images (in space of 8mm) back to 2mm (to be used to compare functional ICA to)
+# Here we apply the above to register our brainMatrix images (in space of 8mm) back to 2mm 
 library('fslr')
 setwd("/scratch/users/vsochat/DATA/BRAINMAP/nsynth525pFgA/som8mm504")
 brainmaps = list.files(pattern="*.nii")

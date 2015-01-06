@@ -1,8 +1,7 @@
 #!/usr/bin/python
 
-# This script will use authoExtract to 
-# return a co-publishing network of authors
-# in the form of:
+# This script will use authorExtract to 
+# return a file with "coauthor relationships" in the form of:
 # uuid1 uuid2 pmids raw_num_papers
 # uuid combinations with no shared papers will be ignored
 

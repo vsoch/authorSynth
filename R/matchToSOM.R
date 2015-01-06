@@ -4,6 +4,7 @@
 # to all images in SOM BrainGrid. The output for each is a
 # single row tab separated text file of the format:
 # uid [tab] SOM1 [tab] SOM2 [tab]
+# Intended to run on cluster, with run_matchToSOM.R
 
 library(fslr)
 

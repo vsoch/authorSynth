@@ -1,11 +1,11 @@
 #!/usr/bin/python
 
-# This script will take in authorsExtract and authorPMIDNet
-# to return PI lab groups in the form of:
+# This script will take in authors and coauthors to return PI lab groups in the form of:
 # PIUUID UUIDS PAPERNUMS in order of descending paper numbers
 # NOTE: Because last author/paper associations have not been kept,
 # it is not possible to distinguish which author was in which labs
 # when two authors defined as last author at some point, co-published
+# This script was developed by not used in the original authorSynth application
 
 keyfile = open('data\\authors.txt')
 keyfile = keyfile.readlines()

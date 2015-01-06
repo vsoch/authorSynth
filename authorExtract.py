@@ -2,6 +2,7 @@
 
 # This script will use authorSynth to extract author meta information, including:
 # AuthorName	UUID	pmid	FirstAuthor	NumberPapers
+# This is to generate the file in data/authors.txt from the NeuroSynth database
 
 # import authorSynth module
 import authorSynth as AS

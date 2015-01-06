@@ -128,10 +128,10 @@ for (a in 1:length(authors$UUIDS)){
 # For each author, print flat file of match scores to create d3!
 
 # Here is the XY coordinates and terms for each node to make the D3 - length 506
-load("som_pAgF_d3.Rda")
+load("data/som_pAgF_d3.Rda")
 
 # Here is the som itself
-load("/home/vanessa/Documents/Dropbox/Code/Python/authorSynth/app/som_pAgF.Rda")
+load("data/som_pAgF.Rda")
 
 # For each author, we need to output a file with
 # AUTHOR  UUID  X Y TERM  SCORE COLOR

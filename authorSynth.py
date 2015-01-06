@@ -199,6 +199,7 @@ def getPaperMeta(db,pmid):
 
 # -- PUBMED FUNCTIONS --------------------------------------------------------------
 # These functions will find papers of interest to crosslist with Neurosynth
+# These functions were not used for the authorSynth paper / interface, but will be useful in the future
 
 def getArticles(author,email):
     """Return dictionaries of dois, pmids, each with order based on author name (Last FM)"""
