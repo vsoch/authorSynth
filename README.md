@@ -1,6 +1,8 @@
 # authorSynth
 [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.32058.svg)](http://dx.doi.org/10.5281/zenodo.32058)
-authorSynth is a tool to query neuroSynth to associate authors with brain maps (in dev).  Functions to query pubmed are included, but not used in the original implementation.
+[publication](http://journal.frontiersin.org/article/10.3389/fninf.2015.00006/abstract)
+
+AuthorSynth is a tool to query neuroSynth to associate authors with brain maps.  Functions to query pubmed are included, but not used in the original implementation.
 
 The first workflow (the python scripts in the top directory) works with the NeuroSynth database to create the maps, and the second workflow (the R scripts) use NeuroSynth to define a subset of functional behaviorally-relevant brain images, reduce these images to a 2D space, calculate match scores of the author brain maps to these images, and then display. All scripts for production of data for use in the [authorSynth web interface](https://github.com/vsoch/authorSynth-www) are included.
 
