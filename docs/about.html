@@ -1,0 +1,140 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title>AuthorSynth: Interative Network of Brain Activation Publications</title>
+  <meta name="description" content="Interative Network of Brain Activation Publications.">
+  <meta name="author" content="Vanessa Sochat">
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <!-- CSS concatenated and minified via ant build script-->
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- end CSS-->
+
+  <link rel="stylesheet" type="text/css" href="css/portal.css" media="screen" />
+  <!-- Jquery -->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+
+
+  <script src="js/libs/modernizr-2.0.6.min.js"></script>
+</head>
+
+<body>
+
+<script type="text/javascript">
+
+$(function() {
+    // Read in the authors.json file
+    var json = (function () {
+        var json = null;
+        $.ajax({
+            'async': false,
+            'global': false,
+            'url': "data/authors.json",
+            'dataType': "json",
+            'success': function (data) {
+                json = data;
+            }
+        });
+        return json;
+    })(); 
+
+    $( "#searchField" ).autocomplete({
+      source: json,
+      select: function(event, ui) {
+        console.log(ui); 
+        $("#searchField").val(ui.item.label);
+        }
+    });
+  });
+
+</script>
+
+
+    <div id='cssmenu'>
+      <ul>
+        <li><a href='network.html'><span>Network</span></a></li>
+       <li><a href='lattice.html'><span>Brain Lattice</span></a></li>
+       <li><a href='authors.html'><span>Authors</span></a></li>
+       <li class='last active'><a href='about.html'><span>About</span></a></li>
+       <li class="right"><form id ="searchForm" action="author.php" method="get">
+       <input id="searchField" name="uid">
+       <input type="submit">
+       </form></li>
+      </ul>
+    </div>
+
+
+  <div id="container" class="container">
+    <header>
+
+    <h1 style="color: #666">What is AuthorSynth</h1>
+    <p>AuthorSynth is a prototype framework for neuroscience researchers to see and find collaborators.  It is a <a href="network.html">network</a> to show actual collaborations based on co-publication, and a <a href="lattice.html">brain lattice</a> to find researchers based on behavioral terms studied.  Both of these visualizations lay on top of a database of <a ref="#authors">single author contributions</a>. Read more about the <a href="#network">network</a>, the <a href="#lattice">brain lattice</a>, or the <a href="#authors">single author contributions</a>.</p>
+<br><br>
+
+
+<a name="network"></a>
+    <h1 style="color: #666">What does the Network show?</h1>
+    <p>The <a href="network.html">network</a> shows neuroscience author collaboration based on publications in the <a href="http://www.neurosynth.org" target="_blank">NeuroSynth</a> database for PIs, defined by being last author on a paper and having at least two publications.  Links are defined between PIs with at least 2 publications together.  Coloring of the network is determined by similarity based on comparison of actual activation reports (x y z voxel values).  The threshold of this coloring can be adjusted to generate more or fewer groups.  An actual link represents a real collaboration, while similar coloring represents potential collaborations.  Clicking on a link navigates to the <a href="">single author page.</a></p>
+<br>
+<a href="network.html"><img src="img/asNetwork.png" width="400px" alt="Network"/></a>
+<br><br><br><br>
+
+<a name="lattice"></a>
+    <h1 style="color: #666">What does the Brain Lattice show?</h1>
+    <p>The <a href="lattice.html">brain lattice</a> is a novel visualization strategy, a self-organizing map (SOM), that maps neuroscience author activation reports to 525 behaviorally relevant terms.  You can click on a node in the map to find researchers with published regional activation reports relevant to the term.  You will notice that "like" terms cluster together in the map, and the coloring is an arbitrary grouping to show this similarity.</p>
+<br>
+<a href="lattice.html"><img src="img/brainlatticecolorful.png" width="400px" alt="Network"/></a>
+<br><br><br><br>
+
+<a name="authors"></a>
+    <h1 style="color: #666">The Single Author Contribution Pages</h1>
+    <p>The single author contribution pages are reachable by clicking on a behavioral term in the <a href="lattice.html">brain lattice</a>, or searching for an author in <a href="network.html">network</a> and clicking on the node. The pages include a <a href="#singlelattice">single author brain lattice</a>, a ranked <a href="#collaborators">collaborator list</a>, and detail about <a href="#pubs">publications and coordinates</a> in the database.</p>
+<br>
+<a name="singlelattice"></a>
+    <h2 style="color: #666">The Single Author Brain Lattice</h2>
+    <p>The single author brain lattice is equivalent in structure to the <a href="#lattice">portal brain lattice</a>, however the coloring of this map represents the similarity of the author's publications to each node, with darker colors corresponding to more highly similar.  For example, a researcher with published coordinates relevant to brain areas associated with "motor" in the <a href="http://www.neurosynth.org">NeuroSynth</a> database will have "hot" spots on the map around "motor."  The map as a whole represents the single researcher's contributions.  You can access these pages through the <a href="authors.html">author search page</a>, by clicking a node on the <a href="network.html">collaborator network</a>, or searching for a behavioral term on the <a href="lattice.html">brain lattice.</a></p>
+<img src="img/asFeature.png" width="400px" alt="Network"/></a>
+<br><br><br><br>
+
+<a name="collaborators"></a>
+    <h2 style="color: #666">Ranked Collaborator List</h2>
+    <p>The ranked list of similar authors is determined by finding authors with similar brain lattices, and therefore similar published work (a complete summary of our methods will be provided in a publication). The author in question is at the top of the list, followed by a list of other authors in the database ordered by most to least similar.  Next to each author name is a circle plotted along an x-axis that represents the similarity score: circles farther to the right correspond to lower similarity scores.  The circles are colored red (indicative of a collaboration), and orange (indicative of no collaboration) so that the user of the interface can quickly assess if the author in question is collaborating with researchers with similar published work.  A user of the interface can click on any of these circles to view the “Single Author View” for the author in question.</p>
+<img src="img/collaboratormatch.png" width="300px" alt="Network"/></a>
+<br><br><br><br>
+
+<a name="pubs"></a>
+    <h2 style="color: #666">Publications</h2>
+    <p>The “Single Author View” includes a tab for the author’s publications, including titles, full lists of authors, and links to the articles themselves.</p>
+<img src="img/publications.png" width="300px" alt="Network"/></a>
+<br><br><br><br>
+    <h2 style="color: #666">Coordinates</h2>
+<p>The page also includes a 3D plot of the activation coordinates described in those papers that were used in the analysis.</p>
+<img src="img/activationcoordinates.png" width="300px" alt="Network"/></a>
+
+
+    </header>
+
+    <footer>
+    <p>AuthorSynth was created by <a href="http://www.vsoch.com" target="_blank">Vanessa Sochat</a> in the Biomedical Informatics Program at <a href="http://bmi.stanford.edu">Stanford University</a></p>
+    </footer>
+  </div> <!--! end of #container -->
+
+
+  <!--[if lt IE 7 ]>
+    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+    <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+  <![endif]-->
+  
+</body>
+</html>
